@@ -1,0 +1,22 @@
+CC=gcc
+CCFLAGS=
+SDL_CFLAGS = $(shell sdl-config --cflags)
+SDL_LDFLAGS= $(shell sdl-config --libs) -lSDL_image
+SOURCES=$(wildcard *.c)
+OBJECTS=$(SOURCES:.c=.o)
+TARGET=client
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) -o $@ $^ $(SDL_LDFLAGS)
+
+%.o: %.c %.h
+	$(CC) $(CCFLAGS) $(SDL_CFLAGS) -c $<
+
+%.o: %.c
+	$(CC) $(CCFLAGS) $(SDL_CFLAGS) -c $<
+
+clean:
+	rm -f *.o $(TARGET)
+
